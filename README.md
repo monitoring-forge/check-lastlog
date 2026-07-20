@@ -25,7 +25,7 @@ Help Options:
 ## Sample
 
 ```
-$ ./check-lastlog --white-user-names kazeburo,pages
+$ ./check-lastlog --white-user-names kevin,pages
 CRITICAL: Found users who have not logged in recently: testuser(129 days), sampleuser(106 days)
 $ echo $?
 2

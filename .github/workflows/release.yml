@@ -1,49 +1,35 @@
-name: release
+name: tagpr
 on:
   push:
-    tags:
-    - "v[0-9]+.[0-9]+.[0-9]+"
+    branches:
+      - master
 jobs:
-  goreleaser:
+  tagpr:
     runs-on: ubuntu-latest
-    env:
-      BIN_NAME: check-lastlog
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v4
 
-      - name: Set tag to environment variable
-        id: set-tag
-        run: echo ::set-output name=version::${GITHUB_REF#refs/*/}
-
-      - name: Build with xgo
-        uses: crazy-max/ghaction-xgo@v1
-        with:
-          xgo_version: latest
-          go_version: 1.15.x
-          dest: build
-          prefix: ${{ env.BIN_NAME }}
-          targets: linux/amd64,linux/arm64
-          v: true
-          x: false
-          ldflags: -s -w -X main.version=${{ steps.set-tag.outputs.version }}
-
-      - name: Check build dir
-        run: ls -lR build
-
-      - name: Zip binaries
-        run: |
-          cd build
-          for file in ./* ; do mkdir $(echo ${file}|awk -F- '{print "${{ env.BIN_NAME }}_"$(NF-1)"_"$(NF)}') && cp ${file} $(echo ${file}|awk -F- '{print "${{ env.BIN_NAME }}_"$(NF-1)"_"$(NF)}')/${{ env.BIN_NAME }} && zip $(echo ${file}|awk -F- '{print "${{ env.BIN_NAME }}_"$(NF-1)"_"$(NF)}').zip -j $(echo ${file}|awk -F- '{print "${{ env.BIN_NAME }}_"$(NF-1)"_"$(NF)}')/${{ env.BIN_NAME }} ../README.md ../LICENSE; done
-          shasum -a 256 *.zip > ${{ env.BIN_NAME }}_${{ steps.set-tag.outputs.version }}_checksums.txt
-          ls -lR ./
-
-      - name: Run GoReleaser
-        uses: goreleaser/goreleaser-action@v2
-        with:
-          version: latest
-          args: release --rm-dist
+      - uses: Songmu/tagpr@b3fb89424646b06c8aa460f50307c60b6a541425 # v1
+        id: tagpr
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Go
+        uses: actions/setup-go@4b73464bb391d4059bd26b0524d20df3927bd417 # v4
+        with:
+          go-version-file: go.mod
+        if: ${{ steps.tagpr.outputs.tag != ''}}
+
+      - name: Run GoReleaser
+        uses: goreleaser/goreleaser-action@ec59f474b9834571250b370d4735c50f8e2d1e29 # v7.0.0
+        with:
+          version: latest
+          args: release --clean
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CGO_ENABLED: 0
+        if: ${{ steps.tagpr.outputs.tag != ''}}
