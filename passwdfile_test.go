@@ -43,6 +43,7 @@ kevin:x:1005:1006::/home/kevin:/usr/bin/zsh
 	opt := &Opt{
 		PasswdFile:  filepath.Join(tmpdir, "passwd"),
 		LastLogFile: filepath.Join(tmpdir, "lastlog"),
+		MaxUID:      10,
 	}
 	passwd, err := opt.getPasswd()
 	if err != nil {

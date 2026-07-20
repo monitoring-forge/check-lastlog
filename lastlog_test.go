@@ -28,6 +28,7 @@ func TestLastLog(t *testing.T) {
 
 	opt := Opt{
 		LastLogFile: filepath.Join(tmpdir, "lastlog"),
+		MaxUID:      10,
 	}
 	lastlog, err := opt.getLastLog()
 	if err != nil {

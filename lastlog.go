@@ -20,8 +20,7 @@ func (opt *Opt) getLastLog() (map[int]int64, error) {
 	}
 	defer f.Close()
 	buf := make([]byte, llsize)
-	pos := 0
-	for {
+	for pos := 0; pos <= opt.MaxUID; pos++ {
 		_, err := io.ReadFull(f, buf)
 		if err == io.EOF {
 			break
@@ -31,7 +30,6 @@ func (opt *Opt) getLastLog() (map[int]int64, error) {
 		}
 		unixTime := int64(binary.LittleEndian.Uint32(buf[:ttsize]))
 		lastlog[pos] = unixTime
-		pos++
 	}
 	return lastlog, nil
 }
