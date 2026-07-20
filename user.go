@@ -13,7 +13,7 @@ type User struct {
 	LastLog  int64
 }
 
-// LastLogTime : user.LastLog as time.TIme
+// LastLogTime : user.LastLog as time.Time
 func (u *User) LastLogTime() time.Time {
 	return time.Unix(u.LastLog, 0)
 }
