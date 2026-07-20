@@ -1,11 +1,14 @@
-# Use for generating CHANGELOG
 builds:
   - binary: check-lastlog
-    skip: true
+    goos:
+      - linux
+    goarch:
+      - amd64
+      - arm64
+archives:
+  - format: zip
+    name_template: "{{ .ProjectName }}_{{ .Os }}_{{ .Arch }}"
 release:
   github:
-    owner: kazeburo
+    owner: monitoring-forge
     name: check-lastlog
-  extra_files:
-    - glob: "build/*.zip"
-    - glob: "build/*_checksums.txt"
