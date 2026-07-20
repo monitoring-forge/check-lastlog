@@ -1,6 +1,6 @@
 module github.com/monitoring-forge/check-lastlog
 
-go 1.25.0
+go 1.25
 
 require github.com/jessevdk/go-flags v1.6.1
 

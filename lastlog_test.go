@@ -17,7 +17,7 @@ func TestLastLog(t *testing.T) {
 	}
 	defer file.Close()
 
-	// Write a sample lastlog entry for UID 0 (root) with a timestamp of 1 day ago
+	// Write a sample lastlog entry for UID 0 (root) with a timestamp of 0 (never logged in)
 	unixTime := int64(0) // 0 means never logged in
 	buf := make([]byte, llsize)
 	binary.LittleEndian.PutUint64(buf[:ttsize], uint64(unixTime))
@@ -37,8 +37,8 @@ func TestLastLog(t *testing.T) {
 	if lastlog[0] != unixTime {
 		t.Errorf("Expected lastlog for UID 0 to be %d, got %d", unixTime, lastlog[0])
 	}
-	// Write a sample lastlog entry for UID 1 (user) with a timestamp of 2 days ago
-	unixTime = int64(2 * 86400) // 2 days ago
+	// Write a sample lastlog entry for UID 1 (user) with a timestamp of 2 days after the Unix epoch
+	unixTime = int64(2 * 86400) // 2 days after epoch
 	binary.LittleEndian.PutUint64(buf[:ttsize], uint64(unixTime))
 	_, err = file.Write(buf)
 	if err != nil {

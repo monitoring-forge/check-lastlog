@@ -21,7 +21,7 @@ type Opt struct {
 	Crit           int64  `short:"c" long:"critical" default:"85" description:"critical if users whose login is older than DAYS"`
 	MinUID         int    `long:"min-uid" default:"500" description:"min uid to check lastlog"`
 	MaxUID         int    `long:"max-uid" default:"60000" description:"max uid to check lastlog"`
-	WhiteUserNames string `long:"white-user-names" default:"" description:"comma separeted user names that white"`
+	WhiteUserNames string `long:"white-user-names" default:"" description:"comma-separated user names to whitelist"`
 	Version        bool   `short:"v" long:"version" description:"Show version"`
 	LastLogFile    string `long:"lastlog-file" default:"/var/log/lastlog" description:"lastlog file path"`
 	PasswdFile     string `long:"passwd-file" default:"/etc/passwd" description:"passwd file path"`
@@ -57,7 +57,7 @@ func (opt *Opt) run() *checkers.Checker {
 	}
 	for _, u := range users {
 		if opt.Verbose {
-			fmt.Printf("DEBUG: user=%s, uid=%d, shell=%s, lastlog=%s, lastlogin=%s\n", u.UserName, u.UID, u.Shell, u.LastLoginDays(), u.LastLogTime().Format(time.RFC3339))
+			fmt.Fprintf(os.Stderr, "DEBUG: user=%s, uid=%d, shell=%s, lastlog=%s, lastlogin=%s\n", u.UserName, u.UID, u.Shell, u.LastLoginDays(), u.LastLogTime().Format(time.RFC3339))
 		}
 		if u.UID <= opt.MinUID {
 			continue
