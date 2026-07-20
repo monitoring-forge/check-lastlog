@@ -33,7 +33,7 @@ $ echo $?
 
 ## Limitation
 
-This command supports Linux on amd64 only.
+This command supports Linux on amd64/arm64 only.
 
 ## Install
 
