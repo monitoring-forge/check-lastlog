@@ -22,17 +22,21 @@ Help Options:
   -h, --help              Show this help message
 ```
 
-## sample
+## Sample
 
 ```
-$ ./check-lastlog --white-user-names boofy,pages
+$ ./check-lastlog --white-user-names kazeburo,pages
 CRITICAL: Found users who have not logged in recently: testuser(129 days), sampleuser(106 days)
 $ echo $?
 2
 ```
 
+## Limitation
+
+This command supports Linux on amd64 only.
+
 ## Install
 
 ```
-$ mkr plugin install kazeburo/check-lastlog
+$ mkr plugin install monitoring-forge/check-lastlog
 ```

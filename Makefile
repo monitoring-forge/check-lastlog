@@ -4,18 +4,14 @@ LDFLAGS=-ldflags "-w -s -X main.version=${VERSION}"
 all: check-lastlog
 
 check-lastlog: main.go
-	go build $(LDFLAGS) -o check-lastlog main.go
+	go build $(LDFLAGS) -o check-lastlog
 
 linux: main.go
-	GOOS=linux GOARCH=amd64 go build $(LDFLAGS) -o check-lastlog main.go
+	GOOS=linux GOARCH=amd64 go build $(LDFLAGS) -o check-lastlog
 
 check:
-	go test ./...
+	go test -v ./...
 
 fmt:
 	go fmt ./...
 
-tag:
-	git tag v${VERSION}
-	git push origin v${VERSION}
-	git push origin master
