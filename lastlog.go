@@ -19,16 +19,21 @@ func (opt *Opt) getLastLog() (map[int]int64, error) {
 		return lastlog, err
 	}
 	defer f.Close()
+
 	buf := make([]byte, llsize)
+
 	for pos := 0; pos <= opt.MaxUID; pos++ {
 		_, err := io.ReadFull(f, buf)
-		if err == io.EOF {
+		if err == io.EOF || err == io.ErrUnexpectedEOF {
+			// End of file reached, which is normal
 			break
 		}
 		if err != nil {
 			return lastlog, err
 		}
-		unixTime := int64(binary.LittleEndian.Uint32(buf[:ttsize]))
+
+		// Read the Unix time (8 bytes for time_t)
+		unixTime := int64(binary.LittleEndian.Uint64(buf[:ttsize]))
 		lastlog[pos] = unixTime
 	}
 	return lastlog, nil

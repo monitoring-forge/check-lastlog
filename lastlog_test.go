@@ -20,7 +20,7 @@ func TestLastLog(t *testing.T) {
 	// Write a sample lastlog entry for UID 0 (root) with a timestamp of 1 day ago
 	unixTime := int64(0) // 0 means never logged in
 	buf := make([]byte, llsize)
-	binary.LittleEndian.PutUint32(buf[:ttsize], uint32(unixTime))
+	binary.LittleEndian.PutUint64(buf[:ttsize], uint64(unixTime))
 	_, err = file.Write(buf)
 	if err != nil {
 		t.Fatalf("Failed to write to temporary lastlog file: %v", err)
@@ -39,7 +39,7 @@ func TestLastLog(t *testing.T) {
 	}
 	// Write a sample lastlog entry for UID 1 (user) with a timestamp of 2 days ago
 	unixTime = int64(2 * 86400) // 2 days ago
-	binary.LittleEndian.PutUint32(buf[:ttsize], uint32(unixTime))
+	binary.LittleEndian.PutUint64(buf[:ttsize], uint64(unixTime))
 	_, err = file.Write(buf)
 	if err != nil {
 		t.Fatalf("Failed to write to temporary lastlog file: %v", err)
