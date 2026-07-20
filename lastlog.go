@@ -22,12 +22,12 @@ func (opt *Opt) getLastLog() (map[int]int64, error) {
 	buf := make([]byte, llsize)
 	pos := 0
 	for {
-		n, err := f.Read(buf)
-		if err != nil && err != io.EOF {
-			return lastlog, err
-		}
-		if n == 0 {
+		_, err := io.ReadFull(f, buf)
+		if err == io.EOF {
 			break
+		}
+		if err != nil {
+			return lastlog, err
 		}
 		unixTime := int64(binary.LittleEndian.Uint32(buf[:ttsize]))
 		lastlog[pos] = unixTime
