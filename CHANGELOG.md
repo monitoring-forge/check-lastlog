@@ -1,5 +1,12 @@
 # Changelog
 
+## [v0.0.14](https://github.com/monitoring-forge/check-lastlog/compare/v0.0.13...v0.0.14) - 2026-07-27
+
+- ci: bump actions/checkout from 7.0.0 to 7.0.1 in the dependencies group by @dependabot[bot] in https://github.com/monitoring-forge/check-lastlog/pull/10
+- Add pr-agent by @kazeburo in https://github.com/monitoring-forge/check-lastlog/pull/12
+- stop pr-agent when bot by @kazeburo in https://github.com/monitoring-forge/check-lastlog/pull/13
+- fix help exit code and Makefile by @kazeburo in https://github.com/monitoring-forge/check-lastlog/pull/14
+
 ## [v0.0.13](https://github.com/monitoring-forge/check-lastlog/compare/v0.0.12...v0.0.13) - 2026-07-20
 
 - Refactor repository and improve CI/CD by @kazeburo in https://github.com/monitoring-forge/check-lastlog/pull/7
