@@ -1,0 +1,26 @@
+name: PR Agent
+on:
+    pull_request:
+        types: [opened, reopened, ready_for_review, synchronize]
+    issue_comment:
+jobs:
+    pr_agent_job:
+        runs-on: ubuntu-latest
+        permissions:
+            issues: write
+            pull-requests: write
+            contents: write
+            checks: write
+        steps:
+            - name: PR Agent action step
+              uses: the-pr-agent/pr-agent@main
+              env:
+                  OPENAI_KEY: ${{ secrets.OPENAI_KEY }}
+                  OPENAI_API_BASE: ${{ secrets.OPENAI_API_BASE }}
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  github_action_config.auto_review: "true"
+                  github_action_config.auto_describe: "true"
+                  github_action_config.auto_improve: "true"
+                  config.model: "openai/Qwen3-Coder-480B-A35B-Instruct-FP8"
+                  config.custom_model_max_tokens: "100000"
+                  config.fallback_models: '[ "openai/Qwen3-Coder-480B-A35B-Instruct-FP8" ]'
