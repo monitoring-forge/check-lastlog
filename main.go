@@ -15,6 +15,11 @@ import (
 var version string
 var commit string
 
+const UNKNOWN = 3
+const CRITICAL = 2
+const WARNING = 1
+const OK = 0
+
 type Opt struct {
 	Before         int64  `long:"before" description:"[Deprecated] Check for users whose login is older than DAYS"`
 	Warn           int64  `short:"w" long:"warning" default:"60" description:"warning if users whose login is older than DAYS"`
@@ -109,11 +114,15 @@ func main() {
 			runtime.GOARCH,
 			runtime.Version(),
 			commit)
-		os.Exit(0)
+		os.Exit(OK)
+	}
+	if err != nil && flags.WroteHelp(err) {
+		fmt.Fprintf(os.Stdout, "%v\n", err)
+		os.Exit(OK)
 	}
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "%v\n", err)
-		os.Exit(1)
+		os.Exit(UNKNOWN)
 	}
 	ckr := opt.run()
 	ckr.Name = "check-lastlog"
