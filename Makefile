@@ -1,5 +1,5 @@
 VERSION=0.0.13
-GITCOMMIT?=$(shell git describe --dirty --always)
+GITCOMMIT?=$(shell git describe --dirty --always 2>/dev/null || echo "unknown")
 LDFLAGS=-ldflags "-w -s -X main.version=${VERSION} -X main.commit=${GITCOMMIT}"
 
 all: check-lastlog
