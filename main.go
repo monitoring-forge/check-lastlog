@@ -98,20 +98,15 @@ func (opt *Opt) run() *checkers.Checker {
 	return checkers.Ok("OK: No users were found who have not logged in recently")
 }
 
-func isHelp(err error) bool {
-	if err == nil {
-		return false
-	}
-	if flagError, ok := err.(*flags.Error); ok && flagError.Type == flags.ErrHelp {
-		return true
-	}
-	return false
-}
-
 func main() {
 	opt := Opt{}
-	psr := flags.NewParser(&opt, flags.HelpFlag|flags.PassDoubleDash)
+	psr := flags.NewParser(&opt, flags.HelpFlag|flags.PrintErrors|flags.PassDoubleDash)
 	_, err := psr.Parse()
+	if flags.WroteHelp(err) {
+		os.Exit(OK)
+	} else if err != nil {
+		os.Exit(UNKNOWN)
+	}
 	if opt.Version {
 		if commit == "" {
 			commit = "dev"
@@ -125,14 +120,6 @@ func main() {
 			runtime.Version(),
 			commit)
 		os.Exit(OK)
-	}
-	if isHelp(err) {
-		fmt.Fprintf(os.Stdout, "%v\n", err)
-		os.Exit(OK)
-	}
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "%v\n", err)
-		os.Exit(UNKNOWN)
 	}
 	ckr := opt.run()
 	ckr.Name = "check-lastlog"
