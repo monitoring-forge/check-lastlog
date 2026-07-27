@@ -21,6 +21,7 @@ jobs:
                   github_action_config.auto_review: "true"
                   github_action_config.auto_describe: "true"
                   github_action_config.auto_improve: "true"
+                  github_action_config.pr_actions: '["opened", "reopened", "synchronize", "ready_for_review", "review_requested"]'
                   config.model: "openai/preview/Qwen3.6-35B-A3B"
                   config.custom_model_max_tokens: "32000"
                   config.fallback_models: '[ "openai/preview/Qwen3.6-35B-A3B" ]'
