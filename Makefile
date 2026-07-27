@@ -1,5 +1,6 @@
 VERSION=0.0.13
-LDFLAGS=-ldflags "-w -s -X main.version=${VERSION}"
+GITCOMMIT?=$(shell git describe --dirty --always 2>/dev/null || echo "unknown")
+LDFLAGS=-ldflags "-w -s -X main.version=${VERSION} -X main.commit=${GITCOMMIT}"
 
 all: check-lastlog
 
@@ -11,7 +12,3 @@ linux: main.go
 
 check:
 	go test -v ./...
-
-fmt:
-	go fmt ./...
-

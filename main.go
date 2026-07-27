@@ -15,6 +15,11 @@ import (
 var version string
 var commit string
 
+const UNKNOWN = 3
+const CRITICAL = 2
+const WARNING = 1
+const OK = 0
+
 type Opt struct {
 	Before         int64  `long:"before" description:"[Deprecated] Check for users whose login is older than DAYS"`
 	Warn           int64  `short:"w" long:"warning" default:"60" description:"warning if users whose login is older than DAYS"`
@@ -93,6 +98,16 @@ func (opt *Opt) run() *checkers.Checker {
 	return checkers.Ok("OK: No users were found who have not logged in recently")
 }
 
+func isHelp(err error) bool {
+	if err == nil {
+		return false
+	}
+	if flagError, ok := err.(*flags.Error); ok && flagError.Type == flags.ErrHelp {
+		return true
+	}
+	return false
+}
+
 func main() {
 	opt := Opt{}
 	psr := flags.NewParser(&opt, flags.HelpFlag|flags.PassDoubleDash)
@@ -109,11 +124,15 @@ func main() {
 			runtime.GOARCH,
 			runtime.Version(),
 			commit)
-		os.Exit(0)
+		os.Exit(OK)
+	}
+	if isHelp(err) {
+		fmt.Fprintf(os.Stdout, "%v\n", err)
+		os.Exit(OK)
 	}
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "%v\n", err)
-		os.Exit(1)
+		os.Exit(UNKNOWN)
 	}
 	ckr := opt.run()
 	ckr.Name = "check-lastlog"
