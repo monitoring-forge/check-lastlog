@@ -35,6 +35,28 @@ type Opt struct {
 	Verbose        bool   `short:"V" long:"verbose" description:"Show verbose log"`
 }
 
+func (opt *Opt) verboseLog(format string, args ...interface{}) {
+	if opt.Verbose {
+		fmt.Fprintf(os.Stderr, format, args...)
+	}
+}
+
+func (opt *Opt) skipUser(u *User, whiteUserNames map[string]struct{}) bool {
+	if u.UID < opt.MinUID {
+		return true
+	}
+	if u.UID > opt.MaxUID {
+		return true
+	}
+	if u.NoLogin() {
+		return true
+	}
+	if _, ok := whiteUserNames[u.UserName]; ok {
+		return true
+	}
+	return false
+}
+
 func (opt *Opt) run() *checkers.Checker {
 	whiteUserNames := make(map[string]struct{})
 	if opt.WhiteUserNames != "" {
@@ -63,19 +85,8 @@ func (opt *Opt) run() *checkers.Checker {
 		return checkers.Unknown(err.Error())
 	}
 	for _, u := range users {
-		if opt.Verbose {
-			fmt.Fprintf(os.Stderr, "DEBUG: user=%s, uid=%d, shell=%s, lastlog=%s, lastlogin=%s\n", u.UserName, u.UID, u.Shell, u.LastLoginDays(), u.LastLogTime().Format(time.RFC3339))
-		}
-		if u.UID <= opt.MinUID {
-			continue
-		}
-		if u.UID >= opt.MaxUID {
-			continue
-		}
-		if _, ok := whiteUserNames[u.UserName]; ok {
-			continue
-		}
-		if u.NoLogin() {
+		opt.verboseLog("DEBUG: user=%s, uid=%d, shell=%s, lastlog=%s, lastlogin=%s\n", u.UserName, u.UID, u.Shell, u.LastLoginDays(), u.LastLogTime().Format(time.RFC3339))
+		if opt.skipUser(u, whiteUserNames) {
 			continue
 		}
 
@@ -128,5 +139,4 @@ func main() {
 	ckr := opt.run()
 	ckr.Name = "check-lastlog"
 	ckr.Exit()
-
 }
