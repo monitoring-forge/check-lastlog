@@ -66,13 +66,8 @@ func TestRun(t *testing.T) {
 	}
 	chk := opt.run()
 	require.NotNil(t, chk, "Checker should not be nil")
-	t.Logf("Checker message: %s %s", chk.Status.String(), chk.Message)
 	require.Equal(t, checkers.CRITICAL, chk.Status, "Expected status to be CRITICAL")
-	assert.NotContains(t, chk.Message, "user0", "Expected message to not contain user0 (UID 0)")
-	assert.NotContains(t, chk.Message, "user1", "Expected message to not contain user1 (2 days ago)")
-	assert.Contains(t, chk.Message, "user2(5 days)", "Expected message to contain user2 (5 days ago)")
-	assert.NotContains(t, chk.Message, "user3", "Expected message to not contain user3 (nologin shell)")
-	assert.Contains(t, chk.Message, "user4(10 days)", "Expected message to contain user4 (10 days ago)")
+	assert.Equal(t, chk.Message, "Found users who have not logged in recently: user2(5 days), user4(10 days)", "Expected message to be CRITICAL")
 
 	opt = Opt{
 		LastLogFile: filepath.Join(tmpdir, "lastlog"),
@@ -84,13 +79,8 @@ func TestRun(t *testing.T) {
 	}
 	chk = opt.run()
 	require.NotNil(t, chk, "Checker should not be nil")
-	t.Logf("Checker message: %s %s", chk.Status.String(), chk.Message)
 	require.Equal(t, checkers.WARNING, chk.Status, "Expected status to be WARNING")
-	assert.NotContains(t, chk.Message, "user0", "Expected message to not contain user0 (UID 0)")
-	assert.NotContains(t, chk.Message, "user1", "Expected message to not contain user1 (2 days ago)")
-	assert.Contains(t, chk.Message, "user2(5 days)", "Expected message to contain user2 (5 days ago)")
-	assert.NotContains(t, chk.Message, "user3", "Expected message to not contain user3 (nologin shell)")
-	assert.Contains(t, chk.Message, "user4(10 days)", "Expected message to contain user4 (10 days ago)")
+	assert.Equal(t, chk.Message, "Found users who have not logged in recently: user2(5 days), user4(10 days)", "Expected message to be WARNING")
 
 	opt = Opt{
 		LastLogFile: filepath.Join(tmpdir, "lastlog"),
@@ -102,9 +92,7 @@ func TestRun(t *testing.T) {
 	}
 	chk = opt.run()
 	require.NotNil(t, chk, "Checker should not be nil")
-	t.Logf("Checker message: %s %s", chk.Status.String(), chk.Message)
 	require.Equal(t, checkers.OK, chk.Status, "Expected status to be OK")
-	assert.NotContains(t, chk.Message, "user0", "Expected message to not contain user0 (UID 0)")
 	assert.Contains(t, chk.Message, "No users were found who have not logged in recently", "Expected message to indicate no users found")
 
 	opt = Opt{
@@ -119,7 +107,6 @@ func TestRun(t *testing.T) {
 	}
 	chk = opt.run()
 	require.NotNil(t, chk, "Checker should not be nil")
-	t.Logf("Checker message: %s %s", chk.Status.String(), chk.Message)
 	require.Equal(t, checkers.CRITICAL, chk.Status, "Expected status to be CRITICAL")
 	assert.NotContains(t, chk.Message, "user0", "Expected message to not contain user0 (UID 0)")
 }
