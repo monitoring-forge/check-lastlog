@@ -1,5 +1,9 @@
 # Changelog
 
+## [v0.0.17](https://github.com/monitoring-forge/check-lastlog/compare/v0.0.16...v0.0.17) - 2026-07-29
+
+- refactor flags, passwd parser, fix max/min uid by @kazeburo in https://github.com/monitoring-forge/check-lastlog/pull/19
+
 ## [v0.0.16](https://github.com/monitoring-forge/check-lastlog/compare/v0.0.15...v0.0.16) - 2026-07-29
 
 - flags refactor and fix duplicated error msg by @kazeburo in https://github.com/monitoring-forge/check-lastlog/pull/17
