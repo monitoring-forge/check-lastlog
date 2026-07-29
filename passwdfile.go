@@ -9,7 +9,7 @@ import (
 
 func (opt *Opt) parsePasswdUser(line string, lastLog map[int]int64) *User {
 	// Skip empty lines and comments
-	if line == "" || line[0] == '#' {
+	if line == "" || strings.HasPrefix(line, "#") {
 		return nil
 	}
 	// kevin:x:1005:1006::/home/kevin:/usr/bin/zsh

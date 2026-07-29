@@ -63,7 +63,10 @@ func (opt *Opt) run() *checkers.Checker {
 	if opt.WhiteUserNames != "" {
 		names := strings.Split(opt.WhiteUserNames, ",")
 		for _, n := range names {
-			whiteUserNames[strings.TrimSpace(n)] = struct{}{}
+			trimmed := strings.TrimSpace(n)
+			if trimmed != "" {
+				whiteUserNames[trimmed] = struct{}{}
+			}
 		}
 	}
 
