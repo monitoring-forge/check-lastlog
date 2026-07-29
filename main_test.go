@@ -22,6 +22,7 @@ func TestRun(t *testing.T) {
 	}
 	defer file.Close()
 	now := time.Now().Unix()
+	// UID must be in ascending order, so we write lastlog entries for UID 0 to 4
 	testUsers := []User{
 		{UserName: "user0", UID: 0, Shell: "/bin/bash", LastLog: 0},
 		{UserName: "user1", UID: 1, Shell: "/bin/bash", LastLog: now - 2*86400},      // 2 days ago
