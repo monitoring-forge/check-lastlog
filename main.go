@@ -15,10 +15,12 @@ import (
 var version string
 var commit string
 
-const UNKNOWN = 3
-const CRITICAL = 2
-const WARNING = 1
-const OK = 0
+const (
+	OK = iota
+	WARNING
+	CRITICAL
+	UNKNOWN
+)
 
 type Opt struct {
 	Before         int64  `long:"before" description:"[Deprecated] Check for users whose login is older than DAYS"`
@@ -58,7 +60,7 @@ func (opt *Opt) run() *checkers.Checker {
 
 	users, err := opt.getPasswd()
 	if err != nil {
-		return checkers.Unknown(fmt.Sprintf("UNKNOWN: %v", err))
+		return checkers.Unknown(err.Error())
 	}
 	for _, u := range users {
 		if opt.Verbose {
@@ -88,25 +90,20 @@ func (opt *Opt) run() *checkers.Checker {
 
 	if hasCrit {
 		// crit
-		return checkers.Critical(fmt.Sprintf("CRITICAL: Found users who have not logged in recently: %s", strings.Join(msgs, ", ")))
+		return checkers.Critical(fmt.Sprintf("Found users who have not logged in recently: %s", strings.Join(msgs, ", ")))
 	} else if hasWarn {
 		// warn
-		return checkers.Warning(fmt.Sprintf("WARNING: Found users who have not logged in recently: %s", strings.Join(msgs, ", ")))
+		return checkers.Warning(fmt.Sprintf("Found users who have not logged in recently: %s", strings.Join(msgs, ", ")))
 	}
 
 	// ok
-	return checkers.Ok("OK: No users were found who have not logged in recently")
+	return checkers.Ok("No users were found who have not logged in recently")
 }
 
 func main() {
 	opt := Opt{}
-	psr := flags.NewParser(&opt, flags.HelpFlag|flags.PrintErrors|flags.PassDoubleDash)
+	psr := flags.NewParser(&opt, flags.HelpFlag|flags.PassDoubleDash)
 	_, err := psr.Parse()
-	if flags.WroteHelp(err) {
-		os.Exit(OK)
-	} else if err != nil {
-		os.Exit(UNKNOWN)
-	}
 	if opt.Version {
 		if commit == "" {
 			commit = "dev"
@@ -120,8 +117,16 @@ func main() {
 			runtime.Version(),
 			commit)
 		os.Exit(OK)
+	} else if flags.WroteHelp(err) {
+		fmt.Fprintf(os.Stdout, "%v\n", err)
+		os.Exit(OK)
+	} else if err != nil {
+		fmt.Fprintf(os.Stderr, "%v\n", err)
+		os.Exit(UNKNOWN)
 	}
+
 	ckr := opt.run()
 	ckr.Name = "check-lastlog"
 	ckr.Exit()
+
 }
