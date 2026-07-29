@@ -1,5 +1,9 @@
 # Changelog
 
+## [v0.0.16](https://github.com/monitoring-forge/check-lastlog/compare/v0.0.15...v0.0.16) - 2026-07-29
+
+- flags refactor and fix duplicated error msg by @kazeburo in https://github.com/monitoring-forge/check-lastlog/pull/17
+
 ## [v0.0.15](https://github.com/monitoring-forge/check-lastlog/compare/v0.0.14...v0.0.15) - 2026-07-27
 
 - use printErrors for simplify by @kazeburo in https://github.com/monitoring-forge/check-lastlog/pull/15
