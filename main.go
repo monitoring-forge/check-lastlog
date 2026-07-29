@@ -15,10 +15,12 @@ import (
 var version string
 var commit string
 
-const UNKNOWN = 3
-const CRITICAL = 2
-const WARNING = 1
-const OK = 0
+const (
+	OK = iota
+	WARNING
+	CRITICAL
+	UNKNOWN
+)
 
 type Opt struct {
 	Before         int64  `long:"before" description:"[Deprecated] Check for users whose login is older than DAYS"`
@@ -100,13 +102,8 @@ func (opt *Opt) run() *checkers.Checker {
 
 func main() {
 	opt := Opt{}
-	psr := flags.NewParser(&opt, flags.HelpFlag|flags.PrintErrors|flags.PassDoubleDash)
+	psr := flags.NewParser(&opt, flags.HelpFlag|flags.PassDoubleDash)
 	_, err := psr.Parse()
-	if flags.WroteHelp(err) {
-		os.Exit(OK)
-	} else if err != nil {
-		os.Exit(UNKNOWN)
-	}
 	if opt.Version {
 		if commit == "" {
 			commit = "dev"
@@ -120,8 +117,16 @@ func main() {
 			runtime.Version(),
 			commit)
 		os.Exit(OK)
+	} else if flags.WroteHelp(err) {
+		fmt.Fprintf(os.Stdout, "%v\n", err)
+		os.Exit(OK)
+	} else if err != nil {
+		fmt.Fprintf(os.Stderr, "%v\n", err)
+		os.Exit(UNKNOWN)
 	}
+
 	ckr := opt.run()
 	ckr.Name = "check-lastlog"
 	ckr.Exit()
+
 }
