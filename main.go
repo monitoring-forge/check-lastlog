@@ -60,7 +60,7 @@ func (opt *Opt) run() *checkers.Checker {
 
 	users, err := opt.getPasswd()
 	if err != nil {
-		return checkers.Unknown(fmt.Sprintf("UNKNOWN: %v", err))
+		return checkers.Unknown(err.Error())
 	}
 	for _, u := range users {
 		if opt.Verbose {
@@ -90,14 +90,14 @@ func (opt *Opt) run() *checkers.Checker {
 
 	if hasCrit {
 		// crit
-		return checkers.Critical(fmt.Sprintf("CRITICAL: Found users who have not logged in recently: %s", strings.Join(msgs, ", ")))
+		return checkers.Critical(fmt.Sprintf("Found users who have not logged in recently: %s", strings.Join(msgs, ", ")))
 	} else if hasWarn {
 		// warn
-		return checkers.Warning(fmt.Sprintf("WARNING: Found users who have not logged in recently: %s", strings.Join(msgs, ", ")))
+		return checkers.Warning(fmt.Sprintf("Found users who have not logged in recently: %s", strings.Join(msgs, ", ")))
 	}
 
 	// ok
-	return checkers.Ok("OK: No users were found who have not logged in recently")
+	return checkers.Ok("No users were found who have not logged in recently")
 }
 
 func main() {
