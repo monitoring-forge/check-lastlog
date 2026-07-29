@@ -42,6 +42,7 @@ func (opt *Opt) verboseLog(format string, args ...interface{}) {
 }
 
 func (opt *Opt) skipUser(u *User, whiteUserNames map[string]struct{}) bool {
+	// Skip if the user is below the minimum UID, above the maximum UID, has a nologin shell, or is in the whitelist
 	if u.UID < opt.MinUID {
 		return true
 	}
@@ -62,7 +63,7 @@ func (opt *Opt) run() *checkers.Checker {
 	if opt.WhiteUserNames != "" {
 		names := strings.Split(opt.WhiteUserNames, ",")
 		for _, n := range names {
-			whiteUserNames[n] = struct{}{}
+			whiteUserNames[strings.TrimSpace(n)] = struct{}{}
 		}
 	}
 
