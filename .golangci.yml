@@ -21,6 +21,9 @@ linters:
       min-complexity: 15
     dupl:
       threshold: 100
+    modernize:
+      disable:
+        - plusbuild
     errcheck:
       exclude-functions:
         - fmt.Fprintf
