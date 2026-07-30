@@ -2,7 +2,10 @@ module github.com/monitoring-forge/check-lastlog
 
 go 1.25.0
 
-require github.com/jessevdk/go-flags v1.6.1
+require (
+	github.com/jessevdk/go-flags v1.6.1
+	golang.org/x/exp v0.0.0-20260727155853-b88d891fe743
+)
 
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect

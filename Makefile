@@ -12,3 +12,6 @@ linux: main.go
 
 check:
 	go test -v ./...
+
+lint:
+	golangci-lint run ./...
