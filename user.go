@@ -40,8 +40,6 @@ func (u *User) LastLoginDays() string {
 		return "*Never logged in*"
 	}
 	t := time.Now().Unix() - u.LastLog
-	if t < 0 {
-		t = 0
-	}
+	t = max(t, 0)
 	return fmt.Sprintf("%d days", int(t/86400))
 }

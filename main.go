@@ -35,13 +35,15 @@ type Opt struct {
 	Verbose        bool   `short:"V" long:"verbose" description:"Show verbose log"`
 }
 
-func (opt *Opt) verboseLog(format string, args ...interface{}) {
+func (opt *Opt) verboseLog(format string, args ...any) {
 	if opt.Verbose {
 		fmt.Fprintf(os.Stderr, format, args...)
 	}
 }
 
 func (opt *Opt) skipUser(u *User, whiteUserNames map[string]struct{}) bool {
+	opt.verboseLog("DEBUG: user=%s, uid=%d, shell=%s, lastlog=%s, lastlogin=%s\n", u.UserName, u.UID, u.Shell, u.LastLoginDays(), u.LastLogTime().Format(time.RFC3339))
+
 	// Skip if the user is below the minimum UID, above the maximum UID, has a nologin shell, or is in the whitelist
 	if u.UID < opt.MinUID {
 		return true
@@ -58,17 +60,22 @@ func (opt *Opt) skipUser(u *User, whiteUserNames map[string]struct{}) bool {
 	return false
 }
 
-func (opt *Opt) run() *checkers.Checker {
+func (opt *Opt) buildWhiteUserNamesMap() map[string]struct{} {
 	whiteUserNames := make(map[string]struct{})
 	if opt.WhiteUserNames != "" {
-		names := strings.Split(opt.WhiteUserNames, ",")
-		for _, n := range names {
+		names := strings.SplitSeq(opt.WhiteUserNames, ",")
+		for n := range names {
 			trimmed := strings.TrimSpace(n)
 			if trimmed != "" {
 				whiteUserNames[trimmed] = struct{}{}
 			}
 		}
 	}
+	return whiteUserNames
+}
+
+func (opt *Opt) run() *checkers.Checker {
+	whiteUserNames := opt.buildWhiteUserNamesMap()
 
 	now := time.Now().Unix()
 	warn := now - opt.Warn*86400
@@ -89,7 +96,6 @@ func (opt *Opt) run() *checkers.Checker {
 		return checkers.Unknown(err.Error())
 	}
 	for _, u := range users {
-		opt.verboseLog("DEBUG: user=%s, uid=%d, shell=%s, lastlog=%s, lastlogin=%s\n", u.UserName, u.UID, u.Shell, u.LastLoginDays(), u.LastLogTime().Format(time.RFC3339))
 		if opt.skipUser(u, whiteUserNames) {
 			continue
 		}

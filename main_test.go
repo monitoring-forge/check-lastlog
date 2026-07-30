@@ -11,7 +11,27 @@ import (
 	"github.com/mackerelio/checkers"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+	"golang.org/x/exp/maps"
 )
+
+// test buildWhiteUserNamesMap
+func TestBuildWhiteUserNamesMap(t *testing.T) {
+	opt := Opt{
+		WhiteUserNames: " user1,user2, user3 ",
+	}
+	whiteUserNames := opt.buildWhiteUserNamesMap()
+	require.NotNil(t, whiteUserNames, "whiteUserNames map should not be nil")
+	assert.Equal(t, 3, len(whiteUserNames), "Expected 3 entries in whiteUserNames map")
+	keys := maps.Keys(whiteUserNames)
+	assert.ElementsMatch(t, keys, []string{"user1", "user2", "user3"}, "Expected keys to be [user1 user2 user3]")
+
+	opt = Opt{
+		WhiteUserNames: "",
+	}
+	whiteUserNames = opt.buildWhiteUserNamesMap()
+	require.NotNil(t, whiteUserNames, "whiteUserNames map should not be nil")
+	assert.Equal(t, 0, len(whiteUserNames), "Expected 0 entries in whiteUserNames map")
+}
 
 // test run
 func TestRun(t *testing.T) {
