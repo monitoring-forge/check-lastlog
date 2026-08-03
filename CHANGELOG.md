@@ -1,5 +1,10 @@
 # Changelog
 
+## [v0.0.18](https://github.com/monitoring-forge/check-lastlog/compare/v0.0.17...v0.0.18) - 2026-08-03
+
+- add lint and fix for that by @kazeburo in https://github.com/monitoring-forge/check-lastlog/pull/21
+- Sync files with `monitoring-forge/github-common` by @monitoring-forge-files-sync-action[bot] in https://github.com/monitoring-forge/check-lastlog/pull/23
+
 ## [v0.0.17](https://github.com/monitoring-forge/check-lastlog/compare/v0.0.16...v0.0.17) - 2026-07-29
 
 - refactor flags, passwd parser, fix max/min uid by @kazeburo in https://github.com/monitoring-forge/check-lastlog/pull/19
