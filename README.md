@@ -29,13 +29,13 @@ $ mkr plugin install monitoring-forge/check-lastlog
 
 ### GitHub リリースからダウンロード
 
-[GitHub Releases](https://github.com/monitoring-forge/check-lastlog/releases) から、利用環境に合ったバイナリをダウンロードできます。
+[GitHub Releases](https://github.com/monitoring-forge/check-lastlog/releases/latest) から、最新のバイナリをダウンロードできます。
 
 ```bash
-# 例: Linux amd64 の場合（最新版のタグに置き換えてください）
-$ VERSION=v0.1.0
-$ curl -L -o check-lastlog.tar.gz "https://github.com/monitoring-forge/check-lastlog/releases/download/${VERSION}/check-lastlog_${VERSION}_linux_amd64.tar.gz"
-$ tar -xzf check-lastlog.tar.gz
+# 例: Linux amd64 の場合
+$ curl -L -o check-lastlog.zip "https://github.com/monitoring-forge/check-lastlog/releases/latest/download/check-lastlog_linux_amd64.zip"
+$ unzip check-lastlog.zip -d check-lastlog
+$ cd check-lastlog
 $ ./check-lastlog -h
 ```
 
