@@ -2,9 +2,10 @@ package main
 
 import (
 	"bufio"
-	"os"
 	"strconv"
 	"strings"
+
+	"github.com/monitoring-forge/saferio"
 )
 
 func (opt *Opt) parsePasswdUser(line string, lastLog map[int]int64) *User {
@@ -50,7 +51,7 @@ func (opt *Opt) getPasswd() ([]*User, error) {
 		return users, err
 	}
 
-	f, err := os.Open(opt.PasswdFile)
+	f, err := saferio.OpenRD(opt.PasswdFile)
 	if err != nil {
 		return users, err
 	}

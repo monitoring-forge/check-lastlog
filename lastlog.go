@@ -3,7 +3,8 @@ package main
 import (
 	"encoding/binary"
 	"io"
-	"os"
+
+	"github.com/monitoring-forge/saferio"
 )
 
 // linux/amd64: struct lastlog { time_t(8) + line[32] + host[256] }
@@ -14,7 +15,7 @@ const (
 
 func (opt *Opt) getLastLog() (map[int]int64, error) {
 	lastlog := make(map[int]int64)
-	f, err := os.Open(opt.LastLogFile)
+	f, err := saferio.OpenRD(opt.LastLogFile)
 	if err != nil {
 		return lastlog, err
 	}

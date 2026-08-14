@@ -85,7 +85,7 @@ func TestRun(t *testing.T) {
 		Crit:        6, // 6 days
 		Verbose:     true,
 	}
-	chk := opt.run()
+	chk := opt.check()
 	require.NotNil(t, chk, "Checker should not be nil")
 	require.Equal(t, checkers.CRITICAL, chk.Status, "Expected status to be CRITICAL")
 	assert.Equal(t, chk.Message, "Found users who have not logged in recently: user2(5 days), user4(10 days)", "Expected message to be CRITICAL")
@@ -98,7 +98,7 @@ func TestRun(t *testing.T) {
 		Warn:        4,  // 4 days
 		Crit:        20, // 20 days
 	}
-	chk = opt.run()
+	chk = opt.check()
 	require.NotNil(t, chk, "Checker should not be nil")
 	require.Equal(t, checkers.WARNING, chk.Status, "Expected status to be WARNING")
 	assert.Equal(t, chk.Message, "Found users who have not logged in recently: user2(5 days), user4(10 days)", "Expected message to be WARNING")
@@ -111,7 +111,7 @@ func TestRun(t *testing.T) {
 		Warn:        20, // 20 days
 		Crit:        30, // 30 days
 	}
-	chk = opt.run()
+	chk = opt.check()
 	require.NotNil(t, chk, "Checker should not be nil")
 	require.Equal(t, checkers.OK, chk.Status, "Expected status to be OK")
 	assert.Contains(t, chk.Message, "No users were found who have not logged in recently", "Expected message to indicate no users found")
@@ -126,7 +126,7 @@ func TestRun(t *testing.T) {
 		WhiteUserNames: "user0,user1",
 		Verbose:        true,
 	}
-	chk = opt.run()
+	chk = opt.check()
 	require.NotNil(t, chk, "Checker should not be nil")
 	require.Equal(t, checkers.CRITICAL, chk.Status, "Expected status to be CRITICAL")
 	assert.NotContains(t, chk.Message, "user0", "Expected message to not contain user0 (UID 0)")

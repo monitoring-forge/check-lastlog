@@ -3,24 +3,14 @@ package main
 import (
 	"fmt"
 	"os"
-	"path/filepath"
-	"runtime"
 	"strings"
 	"time"
 
-	"github.com/jessevdk/go-flags"
 	"github.com/mackerelio/checkers"
+	"github.com/monitoring-forge/flagrun"
 )
 
 var version string
-var commit string
-
-const (
-	OK = iota
-	WARNING
-	CRITICAL
-	UNKNOWN
-)
 
 type Opt struct {
 	Before         int64  `long:"before" description:"[Deprecated] Check for users whose login is older than DAYS"`
@@ -74,7 +64,7 @@ func (opt *Opt) buildWhiteUserNamesMap() map[string]struct{} {
 	return whiteUserNames
 }
 
-func (opt *Opt) run() *checkers.Checker {
+func (opt *Opt) check() *checkers.Checker {
 	whiteUserNames := opt.buildWhiteUserNamesMap()
 
 	now := time.Now().Unix()
@@ -121,32 +111,13 @@ func (opt *Opt) run() *checkers.Checker {
 	return checkers.Ok("No users were found who have not logged in recently")
 }
 
-func main() {
-	opt := Opt{}
-	psr := flags.NewParser(&opt, flags.HelpFlag|flags.PassDoubleDash)
-	_, err := psr.Parse()
-	if opt.Version {
-		if commit == "" {
-			commit = "dev"
-		}
-		fmt.Printf(
-			"%s-%s\n%s/%s, %s, %s\n",
-			filepath.Base(os.Args[0]),
-			version,
-			runtime.GOOS,
-			runtime.GOARCH,
-			runtime.Version(),
-			commit)
-		os.Exit(OK)
-	} else if flags.WroteHelp(err) {
-		fmt.Fprintf(os.Stdout, "%v\n", err)
-		os.Exit(OK)
-	} else if err != nil {
-		fmt.Fprintf(os.Stderr, "%v\n", err)
-		os.Exit(UNKNOWN)
-	}
-
-	ckr := opt.run()
+func (opt *Opt) Run(_ []string) (string, int) {
+	ckr := opt.check()
 	ckr.Name = "check-lastlog"
-	ckr.Exit()
+	return ckr.String(), int(ckr.Status)
+}
+
+func main() {
+	opt := &Opt{}
+	os.Exit(flagrun.Go(opt, flagrun.Version(version), flagrun.AlwaysStdout()))
 }
