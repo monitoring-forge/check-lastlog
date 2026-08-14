@@ -1,5 +1,9 @@
 # Changelog
 
+## [v0.0.19](https://github.com/monitoring-forge/check-lastlog/compare/v0.0.18...v0.0.19) - 2026-08-14
+
+- Feat/saferio and flagrun by @kazeburo in https://github.com/monitoring-forge/check-lastlog/pull/27
+
 ## [v0.0.18](https://github.com/monitoring-forge/check-lastlog/compare/v0.0.17...v0.0.18) - 2026-08-10
 
 - add lint and fix for that by @kazeburo in https://github.com/monitoring-forge/check-lastlog/pull/21
