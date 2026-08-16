@@ -64,7 +64,7 @@ func (opt *Opt) buildWhiteUserNamesMap() map[string]struct{} {
 	return whiteUserNames
 }
 
-func (opt *Opt) check() *checkers.Checker {
+func (opt *Opt) Run(_ []string) *checkers.Checker {
 	whiteUserNames := opt.buildWhiteUserNamesMap()
 
 	now := time.Now().Unix()
@@ -111,13 +111,7 @@ func (opt *Opt) check() *checkers.Checker {
 	return checkers.Ok("No users were found who have not logged in recently")
 }
 
-func (opt *Opt) Run(_ []string) (string, int) {
-	ckr := opt.check()
-	ckr.Name = "check-lastlog"
-	return ckr.String(), int(ckr.Status)
-}
-
 func main() {
 	opt := &Opt{}
-	os.Exit(flagrun.Go(opt, flagrun.Version(version), flagrun.AlwaysStdout()))
+	os.Exit(flagrun.Check(opt, flagrun.Version(version)))
 }
