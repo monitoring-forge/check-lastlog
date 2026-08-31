@@ -40,7 +40,6 @@ jobs:
                       - security
                       - performance
                       - maintainability
-                      - mistyping
                       Ignore:
                       - formatting
                       - naming
