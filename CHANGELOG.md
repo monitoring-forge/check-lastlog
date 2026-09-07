@@ -1,5 +1,16 @@
 # Changelog
 
+## [v0.0.20](https://github.com/monitoring-forge/check-lastlog/compare/v0.0.19...v0.0.20) - 2026-09-07
+
+- update flagrun to autofil chk.Name by @kazeburo in https://github.com/monitoring-forge/check-lastlog/pull/29
+- ci: bump the-pr-agent/pr-agent from 0.41.1 to 0.42.0 in the dependencies group by @dependabot[bot] in https://github.com/monitoring-forge/check-lastlog/pull/31
+- Sync files with `monitoring-forge/github-common` by @monitoring-forge-files-sync-action[bot] in https://github.com/monitoring-forge/check-lastlog/pull/32
+- go: bump the dependencies group across 1 directory with 2 updates by @dependabot[bot] in https://github.com/monitoring-forge/check-lastlog/pull/34
+- ci: bump the-pr-agent/pr-agent from 0.42.0 to 0.43.0 in the dependencies group by @dependabot[bot] in https://github.com/monitoring-forge/check-lastlog/pull/35
+- Sync files with `monitoring-forge/github-common` by @monitoring-forge-files-sync-action[bot] in https://github.com/monitoring-forge/check-lastlog/pull/36
+- go: bump github.com/monitoring-forge/saferio from 0.0.2 to 0.0.3 in the dependencies group across 1 directory by @dependabot[bot] in https://github.com/monitoring-forge/check-lastlog/pull/37
+- ci: bump Songmu/tagpr from 1.20.1 to 1.20.2 in the dependencies group by @dependabot[bot] in https://github.com/monitoring-forge/check-lastlog/pull/39
+
 ## [v0.0.19](https://github.com/monitoring-forge/check-lastlog/compare/v0.0.18...v0.0.19) - 2026-08-14
 
 - Feat/saferio and flagrun by @kazeburo in https://github.com/monitoring-forge/check-lastlog/pull/27
