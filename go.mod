@@ -12,7 +12,7 @@ require (
 require (
 	github.com/mackerelio/checkers v0.2.1
 	github.com/monitoring-forge/flagrun v0.0.8
-	github.com/monitoring-forge/saferio v0.0.2
+	github.com/monitoring-forge/saferio v0.0.3
 	github.com/stretchr/testify v1.12.1
 	golang.org/x/sys v0.47.0 // indirect
 )
