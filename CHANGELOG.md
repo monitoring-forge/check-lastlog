@@ -1,5 +1,10 @@
 # Changelog
 
+## [v0.0.21](https://github.com/monitoring-forge/check-lastlog/compare/v0.0.20...v0.0.21) - 2026-10-11
+
+- Sync files with `monitoring-forge/github-common` by @monitoring-forge-files-sync-action[bot] in https://github.com/monitoring-forge/check-lastlog/pull/45
+- ci: bump Songmu/tagpr from 1.21.0 to 1.21.1 in the tagpr group by @dependabot[bot] in https://github.com/monitoring-forge/check-lastlog/pull/47
+
 ## [v0.0.20](https://github.com/monitoring-forge/check-lastlog/compare/v0.0.19...v0.0.20) - 2026-10-04
 
 - update flagrun to autofil chk.Name by @kazeburo in https://github.com/monitoring-forge/check-lastlog/pull/29
