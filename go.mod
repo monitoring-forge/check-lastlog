@@ -14,5 +14,5 @@ require (
 	github.com/monitoring-forge/flagrun v0.0.10
 	github.com/monitoring-forge/saferio v0.0.3
 	github.com/stretchr/testify v1.12.1
-	golang.org/x/sys v0.48.0 // indirect
+	golang.org/x/sys v0.49.0 // indirect
 )
