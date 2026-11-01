@@ -1,5 +1,17 @@
 # Changelog
 
+## [v0.0.21](https://github.com/monitoring-forge/check-lastlog/compare/v0.0.20...v0.0.21) - 2026-11-01
+
+- Sync files with `monitoring-forge/github-common` by @monitoring-forge-files-sync-action[bot] in https://github.com/monitoring-forge/check-lastlog/pull/45
+- ci: bump Songmu/tagpr from 1.21.0 to 1.21.1 in the tagpr group by @dependabot[bot] in https://github.com/monitoring-forge/check-lastlog/pull/47
+- ci: bump Songmu/tagpr from 1.21.1 to 1.21.2 in the tagpr group by @dependabot[bot] in https://github.com/monitoring-forge/check-lastlog/pull/48
+- ci: bump Songmu/tagpr from 1.21.2 to 1.21.3 in the tagpr group by @dependabot[bot] in https://github.com/monitoring-forge/check-lastlog/pull/50
+- go: bump golang.org/x/sys from 0.48.0 to 0.49.0 in the dependencies group across 1 directory by @dependabot[bot] in https://github.com/monitoring-forge/check-lastlog/pull/49
+- ci: bump Songmu/tagpr from 1.21.3 to 1.21.4 in the tagpr group by @dependabot[bot] in https://github.com/monitoring-forge/check-lastlog/pull/53
+- go: bump go.yaml.in/yaml/v3 from 3.0.5 to 3.0.6 in the dependencies group by @dependabot[bot] in https://github.com/monitoring-forge/check-lastlog/pull/54
+- Sync files with `monitoring-forge/github-common` by @monitoring-forge-files-sync-action[bot] in https://github.com/monitoring-forge/check-lastlog/pull/52
+- ci: bump the dependencies group across 1 directory with 2 updates by @dependabot[bot] in https://github.com/monitoring-forge/check-lastlog/pull/51
+
 ## [v0.0.20](https://github.com/monitoring-forge/check-lastlog/compare/v0.0.19...v0.0.20) - 2026-10-04
 
 - update flagrun to autofil chk.Name by @kazeburo in https://github.com/monitoring-forge/check-lastlog/pull/29
